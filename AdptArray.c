@@ -48,7 +48,6 @@ void DeleteAdptArray(PAdptArray adpt_Array)
                 adpt_Array->elements[i] = NULL;
             }
         }
-        //adpt_Array -> elements= NULL;
         free(adpt_Array->elements);// free the memory we used for the elements
     }
     else
