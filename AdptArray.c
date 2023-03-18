@@ -36,7 +36,7 @@ PAdptArray CreateAdptArray(COPY_FUNC copy_func, DEL_FUNC del_func, PRINT_FUNC pr
     }
 }
 void DeleteAdptArray(PAdptArray adpt_Array)
-{ // not finish yet
+{ 
     if (adpt_Array != NULL)
     // if the array is not null we used the del_func and delete all the array cell by cell
     {
@@ -49,24 +49,24 @@ void DeleteAdptArray(PAdptArray adpt_Array)
             }
         }
         adpt_Array -> elements= NULL;
-        free(adpt_Array->elements);// free the memory we used to the elements
+        free(adpt_Array->elements);// free the memory we used for the elements
     }
     else
         return;
     free(adpt_Array); // free the memeory thet used by the adpt_Array
 }
 Result SetAdptArrayAt(PAdptArray adpt_Array, int index, PElement element)
-{
+{ // check the index's edge cases 
     if (index < 0 || adpt_Array == NULL)
         return FAIL;
 
     if (index > adpt_Array->Array_size)
-    {
+    {   // if the index bigger the array size we copy the array by realloc to new array,his size will be index+1
         PElement *new_adpt_Array = (PElement *)realloc(adpt_Array->elements, (index + 1) * (sizeof(PElement)));
         if (new_adpt_Array == NULL)
             return FAIL;
         for (int i = adpt_Array->Array_size; i < index + 1; i++)
-        {
+        { //make null all the new cells
             new_adpt_Array[i] = NULL;
         }
         adpt_Array->Array_size = (index + 1);
@@ -85,6 +85,7 @@ PElement GetAdptArrayAt(PAdptArray adpt_Array, int index)
     if (adpt_Array == NULL || index < 0 || index > adpt_Array->Array_size)
         return FAIL;
     if (adpt_Array->elements[index] != NULL)
+    // if the array[index] is not empty we call the copy_func constructor
         return adpt_Array->copy_func(adpt_Array->elements[index]);
     else
         return NULL;
@@ -101,7 +102,7 @@ void PrintDB(PAdptArray adpt_Array)
     for (int i = 0; i < adpt_Array->Array_size; i++)
     {
         if (adpt_Array->elements[i] != NULL)
-        {
+        {// the same like the func above but herer we call print_func cons
             adpt_Array->print_func(adpt_Array->elements[i]);
         }
         else
