@@ -35,12 +35,9 @@ PAdptArray CreateAdptArray(COPY_FUNC copy_func, DEL_FUNC del_func, PRINT_FUNC pr
         return adpt_Array;
     }
 }
-void DeleteAdptArray(PAdptArray adpt_Array)
-{ 
-    if (adpt_Array != NULL)
-    // if the array is not null we used the del_func and delete all the array cell by cell
-    {
-        for (int i = 0; i < adpt_Array->Array_size; i++)
+void cleanArray(PAdptArray adpt_Array)
+{
+    for (int i = 0; i < adpt_Array->Array_size; i++)
         {
             if (adpt_Array->elements[i] != NULL)
             {
@@ -48,12 +45,23 @@ void DeleteAdptArray(PAdptArray adpt_Array)
                 adpt_Array->elements[i] = NULL;
             }
         }
+
+}
+
+void DeleteAdptArray(PAdptArray adpt_Array)
+{ 
+    if (adpt_Array != NULL)
+    // if the array is not null we used the del_func and delete all the array cell by cell
+    {
+        cleanArray(adpt_Array);
         free(adpt_Array->elements);// free the memory we used for the elements
     }
     else
         return;
     free(adpt_Array); // free the memeory thet used by the adpt_Array
 }
+
+
 Result SetAdptArrayAt(PAdptArray adpt_Array, int index, PElement element)
 { // check the index's edge cases 
     if (index < 0 || adpt_Array == NULL)
