@@ -64,7 +64,7 @@ void DeleteAdptArray(PAdptArray adpt_Array)
 
 Result SetAdptArrayAt(PAdptArray adpt_Array, int index, PElement element)
 { // check the index's edge cases 
-    if (index < 0 || adpt_Array == NULL)
+    if (index < 0)
         return FAIL;
 
     if (index > adpt_Array->Array_size)
